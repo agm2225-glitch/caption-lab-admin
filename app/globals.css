@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #050809;
+  --panel: #0a1012;
+  --panel-2: #0f171a;
+  --line: #1b3036;
+  --line-hi: #2c4d56;
+  --fg: #d9e7e4;
+  --dim: #8aa3a0;
+  --accent: #4dffb0;
+  --warn: #ffb547;
+  --bad: #ff5d73;
+  --info: #5cc8ff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { font-size: 16px; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.55;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(77, 255, 176, 0.09), transparent),
+    linear-gradient(rgba(77, 255, 176, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 255, 176, 0.035) 1px, transparent 1px);
+  background-size: auto, 32px 32px, 32px 32px;
+  background-attachment: fixed;
 }
+
+/* very faint scanlines */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+  z-index: 50;
+}
+
+h1, h2, .mono, .label, .btn, .badge, .t th, .stat-value, .navlink {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* colors */
+.c-accent { color: var(--accent); }
+.c-warn { color: var(--warn); }
+.c-bad { color: var(--bad); }
+.c-info { color: var(--info); }
+.c-dim { color: var(--dim); }
+
+/* typography helpers */
+.page-title { font-size: 1.75rem; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+.page-sub { margin-top: 0.25rem; color: var(--dim); font-size: 0.9rem; }
+.cursor { color: var(--accent); animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.label {
+  font-size: 0.8rem;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.label.slashes::before { content: "// "; color: var(--accent); }
+
+/* panels */
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+.panel-body { padding: 1.1rem; }
+
+/* stat tiles */
+.stat-value {
+  margin-top: 0.4rem;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-shadow: 0 0 18px currentColor;
+}
+
+/* buttons */
+.btn {
+  display: inline-block;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: rgba(77, 255, 176, 0.06);
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn:hover { background: var(--accent); color: #031009; box-shadow: 0 0 18px rgba(77, 255, 176, 0.45); }
+.btn-ghost { border-color: var(--line-hi); color: var(--fg); background: transparent; }
+.btn-ghost:hover { background: var(--fg); color: #031009; box-shadow: none; }
+.btn-danger { border-color: #5a2630; color: var(--bad); background: rgba(255, 93, 115, 0.06); }
+.btn-danger:hover { background: var(--bad); border-color: var(--bad); color: #1a0409; box-shadow: 0 0 18px rgba(255, 93, 115, 0.45); }
+
+/* inputs */
+.input {
+  width: 100%;
+  background: #040708;
+  border: 1px solid var(--line-hi);
+  border-radius: 3px;
+  padding: 0.65rem 0.85rem;
+  font-size: 1rem;
+  color: var(--fg);
+  font-family: inherit;
+}
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77, 255, 176, 0.15); }
+
+/* tables */
+.t { width: 100%; font-size: 0.95rem; border-collapse: collapse; }
+.t th {
+  text-align: left;
+  color: var(--dim);
+  font-weight: 500;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--line);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.t td { padding: 0.8rem 1rem; border-bottom: 1px solid #12222640; vertical-align: middle; border-bottom-color: #122226; }
+.t tbody tr:hover { background: rgba(77, 255, 176, 0.05); }
+
+/* badges */
+.badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.12rem 0.55rem;
+  border: 1px solid;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.badge-up { color: var(--accent); border-color: rgba(77, 255, 176, 0.4); background: rgba(77, 255, 176, 0.08); }
+.badge-down { color: var(--bad); border-color: rgba(255, 93, 115, 0.4); background: rgba(255, 93, 115, 0.08); }
+.badge-admin { color: var(--warn); border-color: rgba(255, 181, 71, 0.4); background: rgba(255, 181, 71, 0.08); }
+.badge-user { color: var(--dim); border-color: var(--line-hi); }
+.badge-flavor { color: var(--info); border-color: rgba(92, 200, 255, 0.35); background: rgba(92, 200, 255, 0.07); }
+
+/* LED-segment meter */
+.meter { height: 10px; background: #060c0e; border: 1px solid var(--line); border-radius: 2px; overflow: hidden; }
+.meter > i {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 8px);
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* nav */
+.navlink {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  color: var(--dim);
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+.navlink:hover { color: var(--fg); background: rgba(255, 255, 255, 0.03); }
+.navlink.on { color: var(--accent); border-left-color: var(--accent); background: rgba(77, 255, 176, 0.07); }
+
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.35; } }
