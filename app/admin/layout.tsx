@@ -13,8 +13,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const user = await requireAdmin();
   return (
     <div className="flex min-h-screen">
-      <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col gap-8 border-r border-[var(--line)] bg-[rgba(5,8,9,0.85)] p-5">
-        <div>
+        <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col gap-8 overflow-y-auto border-r border-[var(--line)] bg-[rgba(5,8,9,0.85)] p-5">        <div>
           <div className="mono text-lg font-semibold text-white">
             <span className="c-accent">▌</span>CAPTION_LAB
           </div>
